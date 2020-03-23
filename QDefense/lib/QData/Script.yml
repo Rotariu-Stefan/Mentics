@@ -1,0 +1,82 @@
+---
+World:
+    States:
+        Initial:
+            - Initial: []
+              ChangeState: [Hot]
+        Hot:
+            - Initial: []
+            - TimeStamp: [10]
+              ChangeState: [Cold]
+        Cold:
+            - Initial: []
+    
+Npcs:
+    Joe:
+        States:
+            Initial:
+                - Initial: []
+            All:
+                - Moved: [Player, 100]
+                  Chat: ["Sup?", [nothing, alot, blah]]
+                - Response: [Joe, back]
+                  Chat: ["Sup?", [nothing, alot, blah]]
+                - Response: [Joe, nothing]
+                  Chat: ["NOTHING !!!", [back]]
+                - Response: [Joe, alot]
+                  Chat: ["ALOT !!!", [back]]
+                - Response: [Joe, blah]
+                  Chat: ["BLAH !!!", [blabla]]
+                - Response: [Joe, blabla]
+                  Chat: ["Bla blab blabalblalbalbablaal BLAAAAAAAAAA !!!", [back]]
+    Steve:
+        States:
+            Initial:
+                - Initial: []
+                - Moved: [Player, 100]
+                  Chat: ["Hello.", [nothing, you]]
+                - Response: [Steve, back]
+                  Chat: ["Hello.", [nothing, you]]
+                - Response: [Steve, you]
+                  Chat: ["Me?", [great, lame, back]]
+                - Response: [Steve, great]
+                  Chat: ["Why thank you.", [back]]
+                  ChangeState: [Happy]
+                - Response: [Steve, lame]
+                  Chat: ["Excuse me!?", [back]]
+                  ChangeState: [Angry]
+            All:
+                - Response: [Joe, blah]
+                  Chat: ["NO BLAH !!!", [back]]
+                - Response: [Steve, nothing]
+                  Chat: ["Nothing.", [back]]
+            Angry:
+                - Initial: []
+                - Response: [Steve, back]
+                  Chat: ["WHAT?", [nothing, help]]
+                - Response: [Steve, help]
+                  Chat: ["NO!", [back]]
+            Happy:
+                - Initial: []
+                - Response: [Steve, back]
+                  Chat: ["Good day.", [nothing, help]]
+                - Response: [Steve, help]
+                  Chat: ["Sure.", [back]]
+    Enemy1:
+        States:
+            Initial:
+                - Initial: []
+            All:
+                - Attack_on_sight
+    Enemy2:
+        States:
+            Initial:
+                - Initial: []
+            All:
+                - Attack_on_sight
+
+Behaviors:
+    Attack_on_sight:
+        Moved: [Player, 100]
+        Attack: [Player]
+...

@@ -1,0 +1,14 @@
+#version 130
+uniform mat4 m_projection;
+uniform mat4 m_camera;
+uniform mat4 m_translation;
+attribute vec3 Position;
+
+out vec3 TexCoord0;
+
+void main()
+{
+    vec4 WVP_Pos = m_projection * m_translation * m_camera * vec4(Position, 1.0);
+    gl_Position = WVP_Pos.xyww;
+    TexCoord0 = Position;
+}

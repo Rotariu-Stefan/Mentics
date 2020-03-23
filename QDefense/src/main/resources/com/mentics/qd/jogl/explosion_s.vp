@@ -1,0 +1,11 @@
+#version 130
+
+uniform mat4 m_projection;
+uniform mat4 m_camera;
+in vec3 position;
+uniform vec3 center_position;
+
+void main()
+{
+    gl_Position = m_projection * m_camera * vec4((position + center_position), 1.0);
+}

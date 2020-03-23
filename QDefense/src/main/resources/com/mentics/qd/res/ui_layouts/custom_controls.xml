@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty-controls>
+
+    <!-- our nifty progressbar control -->
+    <controlDefinition name="QNprogressbar" controller="com.mentics.qd.ui.controls_custom.reusable.ProgressbarController">
+        <image filename="com/mentics/qd/res/ui_layouts/border.png" imageMode="resize:1,2,1,1,1,2,1,2,1,2,1,1" childLayout="absolute">
+            <image id="#progress" x="0" y="0" filename="com/mentics/qd/res/ui_layouts/progressbar_inner.png" width="32px" height="100%" imageMode="resize:1,2,1,1,1,2,1,2,1,2,1,1" />
+        </image>
+    </controlDefinition>
+	
+	<!-- our nifty textfield control -->
+	<controlDefinition name="QNtextfield" style="QNtextfield" controller="com.mentics.qd.ui.controls_custom.reusable.TextFieldController">
+		<panel style="#panel">
+			<panel id="#field" style="commands">
+				<text id="#text" style="subcommands-text" text="$text" />
+			</panel>
+			<panel id="#cursor-panel" style="#cursor-panel">
+				<image id="#cursor" style="#cursor"/>
+			</panel>
+		</panel>
+	</controlDefinition>
+	
+	<!-- our nifty vertical slider control -->
+	<controlDefinition name="QNverticalSlider" style="QNverticalSlider" controller="com.mentics.qd.ui.controls_custom.reusable.SliderController">
+		<panel style="#panel" focusable="true">
+			<image style="#up">
+				<interact onClickRepeat="upClick()" />
+			</image>
+			<image id="#background" style="#background">
+				<interact onClick="mouseClick()" onClickMouseMove="mouseClick()" />
+				<image id="#position" style="#position">
+					<interact onClick="mouseClick()" onClickMouseMove="mouseClick()" />
+				</image>
+			</image>
+			<image style="#down">
+				<interact onClickRepeat="downClick()" />
+			</image>			
+		</panel>
+	</controlDefinition>
+	
+	<!-- our nifty vertical slider control -->
+	<controlDefinition name="QNhorizontalSlider" style="QNhorizontalSlider" controller="com.mentics.qd.ui.controls_custom.reusable.SliderController">
+		<panel style="#panel" focusable="true">
+			<image style="#left">
+				<interact onClickRepeat="upClick()" />
+			</image>
+			<image id="#background" style="#background">
+				<interact onClick="mouseClick()" onClickMouseMove="mouseClick()" />
+				<image id="#position" style="#position">
+					<interact onClick="mouseClick()" onClickMouseMove="mouseClick()" />
+				</image>
+			</image>
+			<image style="#right">
+				<interact onClickRepeat="downClick()" />
+			</image>
+		</panel>
+	</controlDefinition>
+
+</nifty-controls>

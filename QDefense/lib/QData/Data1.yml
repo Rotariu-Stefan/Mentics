@@ -1,0 +1,23 @@
+---
+World:
+    State: Initial
+    Time: 0
+
+Player:
+    Name: StravoS
+    Location: [0, 0, 0]
+
+Npcs:
+    Joe:
+        State: Initial
+        Location: [10, 0, 10]
+    Steve:
+        State: Initial
+        Location: [0, 30, 30]
+    #Enemy1:
+    #    State: Initial
+    #    Location: [-100, -100, -100]
+    #Enemy2:
+    #    State: Initial
+    #    Location: [-50, -50, -50]
+...

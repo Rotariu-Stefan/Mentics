@@ -1,0 +1,21 @@
+#version 130
+in vec3 velocity;
+
+uniform float time;
+uniform vec3 center;
+uniform float radius;
+uniform mat4 m_projection;
+uniform mat4 m_camera;
+
+varying float t;
+
+void main()
+{
+    float speed = length(velocity);
+    float max_time = radius / speed;
+    int divisor = int(time / max_time);
+    t = time - divisor * max_time;
+    vec3 pos = center + t * velocity;
+
+    gl_Position = m_projection * m_camera * vec4(pos, 1.0);
+}

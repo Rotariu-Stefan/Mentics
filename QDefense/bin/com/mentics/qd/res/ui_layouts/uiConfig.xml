@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.4.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.4.xsd http://nifty-gui.sourceforge.net/nifty-1.4.xsd">
+    <useStyles filename="com/mentics/qd/res/ui_layouts/styles.xml" />
+    <useStyles filename="com/mentics/qd/res/ui_layouts/custom_controls_styles.xml" />
+    <useControls filename="com/mentics/qd/res/ui_layouts/custom_controls.xml" />
+	<useStyles filename="nifty-default-styles.xml" />
+	<useControls filename="nifty-default-controls.xml" />
+
+	<!-- the game ui screen -->
+    <screen id="config" controller="de.lessvoid.nifty.screen.DefaultScreenController" childLayout="overlay">
+	
+		<!-- all the gui elements that can be changed -->
+		<layer id="ui_layer" childLayout="overlay">
+		
+		<!-- layer for quip and groups main command menus, navigation and selection panels -->
+        <panel id="top" childLayout="absolute" renderOrder="3">
+            
+			<!-- selection panel => shows current quip and selected group -->
+			<panel id="selection" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				childLayout="center" minW="85" maxW="255" minH="31" maxH="93">
+				<interact onClick="clickPanel()" onClickMouseMove="movePanel()"/>
+				
+                <panel width="100%" height="100%" id="selection-real" childLayout="vertical">                
+                    <panel style="commands" childLayout="horizontal">
+                        <text id="current-quip" style="commands-text" text="Player Name"/>
+                    </panel>
+                    <panel style="commands" childLayout="horizontal">
+                        <text id="current-group" style="commands-text" text="Q/G Selection"/>
+                    </panel>
+                </panel>
+                
+                <panel width="100%" height="100%" id="selection-faded" style="faded-top" childLayout="center" visible="false">
+                    <text style="faded-text" text="selection"/>
+                </panel>
+				
+			</panel>
+			
+			<!-- navigation panel => shows subgroups and data about them -->
+			<panel id="navigation" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				childLayout="center" minW="85" maxW="255" minH="76" maxH="228">
+				<interact onClick="clickPanel()" onClickMouseMove="movePanel()"/>
+				
+                <panel width="100%" height="100%" id="navigation-real" style="commands" childLayout="vertical">  
+                    <panel height="*" childLayout="horizontal">
+                        <text id="navigation-group-1-hotkey" text="1- " style="hotkey"/>
+                        <text id="navigation-group-1-current" width="20%" style="navigation-text" text="000" />
+                        <text id="navigation-group-1-max" text="/000" style="navigation-text"/>
+                        <control id="navigation-energy-1" name="QNprogressbar" valign="center" width="40px" height="14px"/>
+                    </panel>
+                    <panel height="*" childLayout="horizontal">
+                        <text id="navigation-group-2-hotkey" text="2- " style="hotkey"/>
+                        <text id="navigation-group-2-current" width="20%" style="navigation-text" text="000" />
+                        <text id="navigation-group-2-max" text="/000" style="navigation-text"/>
+                        <control id="navigation-energy-2" name="QNprogressbar" valign="center" width="40px" height="14px"/>
+                    </panel>
+                    <panel height="*" childLayout="horizontal">
+                        <text id="navigation-group-3-hotkey" text="3- " style="hotkey"/>
+                        <text id="navigation-group-3-current" width="20%" style="navigation-text" text="000" />
+                        <text id="navigation-group-3-max" text="/000" style="navigation-text"/>
+                        <control id="navigation-energy-3" name="QNprogressbar" valign="center" width="40px" height="14px"/>
+                    </panel>
+                    <panel height="*" childLayout="horizontal">
+                        <text id="navigation-group-4-hotkey" text="4- " style="hotkey"/>
+                        <text id="navigation-group-4-current" width="20%" style="navigation-text" text="000" />
+                        <text id="navigation-group-4-max" text="/000" style="navigation-text"/>
+                        <control id="navigation-energy-4" name="QNprogressbar" valign="center" width="40px" height="14px"/>
+                    </panel>
+                    <panel height="*" childLayout="horizontal">
+                        <text id="navigation-group-5-hotkey" text="5- " style="hotkey"/>
+                        <text id="navigation-group-5-current" width="20%" style="navigation-text" text="000" />
+                        <text id="navigation-group-5-max" text="/000" style="navigation-text"/>
+                        <control id="navigation-energy-5" name="QNprogressbar" valign="center" width="40px" height="14px"/>
+                    </panel>
+                    <panel height="*" childLayout="horizontal">
+                        <text id="navigation-group-6-hotkey" text="6- " style="hotkey"/>
+                        <text id="navigation-group-6-current" width="20%" style="navigation-text" text="000" />
+                        <text id="navigation-group-6-max" text="/000" style="navigation-text"/>
+                        <control id="navigation-energy-6" name="QNprogressbar" valign="center" width="40px" height="14px"/>
+                    </panel>
+                </panel>
+                
+                <panel width="100%" height="100%" id="navigation-faded" style="faded-top" childLayout="center" visible="false">
+                    <text style="faded-text" text="navigation"/>
+                </panel>                
+				
+			</panel>
+
+			<!-- quip main commands menu => contains: quip motion, quip behaviour, add node -->
+			<panel id="quip" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				childLayout="center" visible="false" minW="85" maxW="255" minH="46" maxH="138">
+				<interact onClick="clickPanel()" onClickMouseMove="movePanel()" onRelease="releasePanel()"/>
+				
+                <panel width="100%" height="100%" id="quip-real" childLayout="vertical">  
+                    <panel style="commands" childLayout="horizontal">
+                        <text id="qmove-hotkey" style="hotkey" text="q "/>
+                        <text id="qmove-menutext" style="commands-text" text="motion"/>
+                    </panel>
+                    <panel style="commands" childLayout="horizontal">
+                        <text id="qbehaviour-hotkey" style="hotkey" text="w "/>
+                        <text id="qbehaviour-menutext" style="commands-text" text="behaviour"/>
+                    </panel>
+                    <panel style="commands" childLayout="horizontal">
+                        <text id="addnode-hotkey" style="hotkey" text="e "/>
+                        <text id="addnode-menutext" style="commands-text" text="add node"/>
+                    </panel>	
+                </panel>
+                
+                <panel width="100%" height="100%" id="quip-faded" style="faded-top" childLayout="center" visible="false">
+                    <text style="faded-text" text="commands"/>
+                </panel>                
+
+			</panel>
+			
+			<!-- groups main commands menu => contains: quip motion, quip behaviour, grouping, shoot, select quip -->
+			<panel id="groups" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				childLayout="center" visible="true" minW="85" maxW="255" minH="78" maxH="234">
+				<interact onClick="clickPanel()" onClickMouseMove="movePanel()" onRelease="releasePanel()"/>
+				   
+                <panel width="100%" height="100%" id="groups-real" childLayout="vertical">  
+                    <panel style="commands" childLayout="horizontal">
+                        <text id="gmotion-hotkey" style="hotkey" text="q "/>
+                        <text id="gmotion-menutext" style="commands-text" text="motion"/>
+                    </panel>
+                    <panel style="commands" childLayout="horizontal">
+                        <text id="gbehaviour-hotkey" style="hotkey" text="w "/>
+                        <text id="gbehaviour-menutext" style="commands-text" text="behaviour"/>
+                    </panel>
+                    <panel style="commands" childLayout="horizontal">
+                        <text id="grouping-hotkey" style="hotkey" text="e "/>
+                        <text id="grouping-menutext" style="commands-text" text="grouping"/>
+                    </panel>
+                    <panel style="commands" childLayout="horizontal">
+                        <text id="shoot-hotkey" style="hotkey" text="r "/>
+                        <text id="shoot-menutext" style="commands-text" text="shoot"/>
+                    </panel>
+                    <panel style="commands" childLayout="horizontal">
+                        <text id="selectquip-hotkey" style="hotkey" text="t "/>
+                        <text id="selectquip-menutext" style="commands-text" text="select quip"/>
+                    </panel>
+                </panel>
+                
+                <panel width="100%" height="100%" id="groups-faded" style="faded-top" childLayout="center" visible="false">
+                    <text style="faded-text" text="commands"/>
+                </panel>                
+
+			</panel>			
+			
+			<!-- panel controlling the speed of the game -->
+			<panel id="speed" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				childLayout="center" minW="85" maxW="255" minH="31" maxH="93">
+				<interact onClick="clickPanel()" onClickMouseMove="movePanel()"/>
+				
+                <panel width="100%" height="100%" id="speed-real" childLayout="vertical">  
+                    <panel id="speed-header" style="commands" childLayout="horizontal">
+                        <text id="speed-header-text" style="subcommands-text" text="Speed: "/>
+                        <text id="speed-header-value" style="subcommands-text" text="000 "/>
+                    </panel>
+                    <panel id="speed-field" style="commands">
+                        <control id="speed-slider" name="QNhorizontalSlider" min="0.0" max="20.0" initial="11.0" stepSize="1.0" buttonStepSize="1.0"/>
+                    </panel>
+                </panel>
+                
+                <panel width="100%" height="100%" id="speed-faded" style="faded-top" childLayout="center" visible="false">
+                    <text style="faded-text" text="speed"/>
+                </panel>                
+				
+			</panel>
+            
+			<!-- notification panel for events happening in the game -->			
+			<panel id="notify" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				childLayout="center" minW="200" maxW="600" minH="82" maxH="245">
+				<interact onClick="clickPanel()" onClickMouseMove="movePanel()"/>
+				
+                <panel width="100%" height="100%" id="notify-real" style="commands" childLayout="horizontal">  
+                    <panel width="95%" childLayout="vertical">
+                        <text id="notify-1" style="commands-text" text="Line of text..."/>
+                        <text id="notify-2" style="commands-text" text="Line of text..."/>
+                        <text id="notify-3" style="commands-text" text="Line of text..."/>
+                        <text id="notify-4" style="commands-text" text="Line of text..."/>
+                        <text id="notify-5" style="commands-text" text="Line of text..."/>
+                        <text id="notify-6" style="commands-text" text="Line of text..."/>
+                        <text id="notify-7" style="commands-text" text="Line of text..."/>
+                        <text id="notify-8" style="commands-text" text="Line of text..."/>
+                        <text id="notify-9" style="commands-text" text="Line of text..."/>
+                        <text id="notify-10" style="commands-text" text="Line of text..."/>
+                    </panel>
+                    <panel childLayout="vertical">
+                        <control id="notify-slider" name="QNverticalSlider" orientation="v" min="1.0" max="100.0" initial="1.0" stepSize="1.0" buttonStepSize="1.0"/>
+                    </panel>
+                </panel>
+                
+                <panel width="100%" height="100%" id="notify-faded" style="faded-top" childLayout="center" visible="false">
+                    <text style="faded-text" text="notify"/>
+                </panel>                
+				
+			</panel>
+
+			<!-- dialog panel => for chatting with NPCs -->
+			<panel id="chat" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				childLayout="center" minW="200" maxW="600" minH="82" maxH="245">
+				<interact onClick="clickPanel()" onClickMouseMove="movePanel()"/>
+				
+                <panel width="100%" height="100%" id="chat-real" childLayout="horizontal">
+                    <panel style="commands" width="70%" childLayout="horizontal">					
+                        <text id="message-text" style="chat-text" wrap="true" 
+                            text="NPC: This is something that NPC said."/>
+                    </panel>
+                    
+                    <panel width="30%" childLayout="vertical">
+                    
+                        <panel style="commands" height="40%" childLayout="vertical">					
+                            <panel id="keyword-1" childLayout="horizontal">
+                                <text id="keyword-hotkey-1" style="hotkey" text="1 "/>
+                                <text id="keyword-text-1" style="chat-text" text="Reply1"/>
+                            </panel>
+                            <panel id="keyword-2" childLayout="horizontal">
+                                <text id="keyword-hotkey-2" style="hotkey" text="2 "/>
+                                <text id="keyword-text-2" style="chat-text" text="Reply2"/>
+                            </panel>
+                            <panel id="keyword-3" childLayout="horizontal">
+                                <text id="keyword-hotkey-3" style="hotkey" text="3 "/>
+                                <text id="keyword-text-3" style="chat-text" text="Reply3"/>
+                            </panel>
+                            <panel id="keyword-4" childLayout="horizontal">
+                                <text id="keyword-hotkey-4" style="hotkey" text="4 "/>
+                                <text id="keyword-text-4" style="chat-text" text="Reply4"/>
+                            </panel>
+                        </panel>
+                        
+                        <panel style="commands" height="60%" childLayout="vertical">
+                            <control id="chat-global-input" name="QNtextfield" text="Key search"/>
+                            <panel id="gkeyword-1" childLayout="horizontal">
+                                <text id="gkeyword-hotkey-1" style="hotkey" text="z "/>
+                                <text id="gkeyword-text-1" style="chat-text" text="Global1"/>
+                            </panel>
+                            <panel id="gkeyword-2" childLayout="horizontal">
+                                <text id="gkeyword-hotkey-2" style="hotkey" text="x "/>
+                                <text id="gkeyword-text-2" style="chat-text" text="Global2"/>
+                            </panel>
+                            <panel id="gkeyword-3" childLayout="horizontal">
+                                <text id="gkeyword-hotkey-3" style="hotkey" text="c "/>
+                                <text id="gkeyword-text-3" style="chat-text" text="Global3"/>
+                            </panel>
+                            <panel id="gkeyword-4" childLayout="horizontal">
+                                <text id="gkeyword-hotkey-4" style="hotkey" text="v "/>
+                                <text id="gkeyword-text-4" style="chat-text" text="Global4"/>
+                            </panel>
+                        </panel>
+					
+                    </panel>
+                </panel>
+                
+                <panel width="100%" height="100%" id="chat-faded" style="faded-top" childLayout="center" visible="false">
+                    <text style="faded-text" text="chat"/>
+                </panel>                
+				
+			</panel>			
+			 
+        </panel>
+
+		<!-- layer for all sub menus that appear as a result of complex commands -->
+        <panel id="sub" childLayout="absolute" renderOrder="2">
+			   
+		   <!-- quip-add nodes -->
+			<panel id="addnodes" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				   childLayout="center" visible="false" minW="80" maxW="240" minH="27" maxH="80">
+				   <interact onClick="clickPanel()" onClickMouseMove="movePanel()" onRelease="releasePanel()"/>
+				
+				<panel width="100%" height="100%" id="addnodes-real" childLayout="horizontal" visible="false">
+					<panel width="100%" height="*" childLayout="vertical">
+						<panel style="commands" childLayout="horizontal">
+							<text id="addnodes-header-hotkey" text="a " style="hotkey"/>
+							<text id="addnodes-header" style="subcommands-text" text="nodes to add"/>
+						</panel>
+						<control id="addnodes-input" name="QNtextfield" text="000"/>
+					</panel>
+				</panel>
+				
+				<panel width="100%" height="100%" id="addnodes-faded" style="faded-sub" childLayout="center">
+					<text style="faded-text" text="addnodes"/>
+				</panel>
+				
+			</panel>
+				
+		   <!-- group-grouping -->
+			<panel id="grouping" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				   childLayout="center" visible="true" minW="80" maxW="240" minH="27" maxH="80">
+				   <interact onClick="clickPanel()" onClickMouseMove="movePanel()" onRelease="releasePanel()"/>
+				
+				<panel width="100%" height="100%" id="grouping-real" childLayout="horizontal" visible="false">
+					<panel width="100%" height="*" childLayout="vertical">
+						<panel style="commands" childLayout="horizontal">
+							<text id="contains-header-hotkey" text="a " style="hotkey"/>
+							<text id="contains-header" style="subcommands-text" text="contains"/>
+						</panel>
+						<control id="grouping-input" name="QNtextfield" text="000"/>
+					</panel>
+				</panel>
+				
+				<panel width="100%" height="100%" id="grouping-faded" style="faded-sub" childLayout="center">
+					<text style="faded-text" text="grouping"/>
+				</panel>                    
+				
+			</panel>
+
+			<!-- group-motion -->
+			<panel id="gmotion" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				   childLayout="center" minW="160" maxW="480" minH="40" maxH="120">
+				   <interact onClick="clickPanel()" onClickMouseMove="movePanel()"/>
+				   
+				<panel width="100%" height="100%" id="gmotion-real" childLayout="horizontal" visible="false">
+					<panel width="50%" height="*" childLayout="vertical">
+						<panel style="commands" childLayout="horizontal" align="center">
+							<text id="move-header-hotkey" text="a " style="hotkey"/>
+							<text id="move-header" style="subcommands-text" text="move"/>
+						</panel>
+						<panel style="commands" childLayout="vertical">
+							<text id="move-target-text" text="Target" style="subcommands-text"/>
+						</panel>
+						<panel style="commands" childLayout="vertical">
+							<text id="move-distance-text" text="000" style="subcommands-text"/>
+						</panel>						
+					</panel>
+					<panel width="50%" height="*" childLayout="vertical">
+						<panel style="commands" childLayout="horizontal">
+							<text id="formation-header-hotkey" text="s " style="hotkey"/>
+							<text id="formation-header" style="subcommands-text" text="formation"/>
+						</panel>
+						<panel style="commands" childLayout="vertical">
+							<text id="formation-type-text" text="Type" style="subcommands-text"/>
+						</panel>
+						<panel style="commands" childLayout="vertical">
+							<text id="formation-param-text" text="000" style="subcommands-text"/>
+						</panel>						
+					</panel>
+				</panel>
+				
+				<panel width="100%" height="100%" id="gmotion-faded" style="faded-sub" childLayout="center">
+					<text style="faded-text" text="gmotion"/>
+				</panel>                      
+				
+			</panel>				
+
+        </panel>
+        
+        <!-- layer for all dialog menus that appear as a result of complex commands -->
+        <panel id="dialog" childLayout="absolute" renderOrder="1">
+               
+			<!-- quip/group-motion-move -->
+			<panel id="move" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				   childLayout="center" minW="300" maxW="900" minH="304" maxH="916">
+				   <interact onClick="clickPanel()" onClickMouseMove="movePanel()"/>
+				   
+				<panel width="100%" height="100%" id="move-real" childLayout="vertical" visible="false">
+					<panel id="move-distance" height="10%" childLayout="vertical">
+					
+						<panel id="move-distance-title" style="commands" childLayout="horizontal">
+							<text id="move-distance-header-hotkey" style="hotkey" text=""/>
+							<text id="move-distance-header" style="subcommands-text" text="Distance: "/>
+							<control id="move-distance-input" name="QNtextfield" text="0"/>
+						</panel>					
+						
+					</panel>
+					
+					<panel id="move-target" height="90%" childLayout="vertical">
+					
+						<panel id="move-target-title" height="10%" style="commands" childLayout="horizontal">
+							<text id="move-target-header-hotkey" style="hotkey" text=""/>
+							<text id="move-target-header" style="subcommands-text" text="Target: "/>
+							<text id="move-target-titletext" style="subcommands-text" text="Player 1"/>
+						</panel>
+						
+						<panel id="move-target-tabs" height="90%" childLayout="horizontal">
+							<panel id="move-target-quickLandmarks" width="50%" childLayout="vertical">
+							
+								<panel style="commands" height="10%" childLayout="horizontal">
+									<text id="move-target-quickLandmarks-header-hotkey" style="hotkey" text="[tab] "/>
+									<text id="move-target-quickLandmarks-header" style="subcommands-text" text="Quick Lists"/>
+								</panel>
+								
+								<panel id="move-target-recentLandmarks" height="30%" style="commands" childLayout="vertical">
+									<text id="move-target-recentLandmarks-header" style="subcommands-text" text="Recent Landmarks"/>
+									<panel childLayout="horizontal">
+										<text id="move-target-recentLandmarks-1-hotkey" style="hotkey" text="q "/>
+										<text id="move-target-recentLandmarks-1" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-recentLandmarks-2-hotkey" style="hotkey" text="w "/>
+										<text id="move-target-recentLandmarks-2" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-recentLandmarks-3-hotkey" style="hotkey" text="e "/>
+										<text id="move-target-recentLandmarks-3" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-recentLandmarks-4-hotkey" style="hotkey" text="r "/>
+										<text id="move-target-recentLandmarks-4" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-recentLandmarks-5-hotkey" style="hotkey" text="t "/>
+										<text id="move-target-recentLandmarks-5" style="subcommands-text" text="Some Target"/>
+									</panel>
+								</panel>
+								
+								<panel id="move-target-nearbyLandmarks" height="60%" style="commands" childLayout="vertical">
+									<text id="move-target-nearbyLandmarks-header" style="subcommands-text" text="Nearby Landmarks"/>
+									<panel childLayout="horizontal">
+										<text id="move-target-nearbyLandmarks-1-hotkey" style="hotkey" text="a "/>
+										<text id="move-target-nearbyLandmarks-1" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-nearbyLandmarks-2-hotkey" style="hotkey" text="s "/>
+										<text id="move-target-nearbyLandmarks-2" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-nearbyLandmarks-3-hotkey" style="hotkey" text="d "/>
+										<text id="move-target-nearbyLandmarks-3" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-nearbyLandmarks-4-hotkey" style="hotkey" text="f "/>
+										<text id="move-target-nearbyLandmarks-4" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-nearbyLandmarks-5-hotkey" style="hotkey" text="g "/>
+										<text id="move-target-nearbyLandmarks-5" style="subcommands-text" text="Some Target"/>
+									</panel>	
+									<panel childLayout="horizontal">
+										<text id="move-target-nearbyLandmarks-6-hotkey" style="hotkey" text="z "/>
+										<text id="move-target-nearbyLandmarks-6" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-nearbyLandmarks-7-hotkey" style="hotkey" text="x "/>
+										<text id="move-target-nearbyLandmarks-7" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-nearbyLandmarks-8-hotkey" style="hotkey" text="c "/>
+										<text id="move-target-nearbyLandmarks-8" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-nearbyLandmarks-9-hotkey" style="hotkey" text="v "/>
+										<text id="move-target-nearbyLandmarks-9" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-nearbyLandmarks-10-hotkey" style="hotkey" text="b "/>
+										<text id="move-target-nearbyLandmarks-10" style="subcommands-text" text="Some Target"/>
+									</panel>
+								</panel>	
+								
+							</panel>
+							
+							<panel id="move-target-allLandmarks" width="50%" childLayout="vertical">
+							
+								<panel style="commands" height="10%" childLayout="horizontal">
+									<text id="move-target-allLandmarks-header-hotkey" style="hotkey" text="[tab] "/>
+									<text id="move-target-allLandmarks-header" style="subcommands-text" text="All Landmarks"/>
+								</panel>
+								
+								<panel style="commands" height="10%" childLayout="horizontal">
+									<control id="move-target-input" name="QNtextfield" text="Search Target"/>
+								</panel>
+
+								<panel id="move-target-searchLandmarks" height="80%" style="commands" childLayout="vertical">
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-1-hotkey" style="hotkey" text="q "/>
+										<text id="move-target-searchLandmarks-1" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-2-hotkey" style="hotkey" text="w "/>
+										<text id="move-target-searchLandmarks-2" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-3-hotkey" style="hotkey" text="e "/>
+										<text id="move-target-searchLandmarks-3" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-4-hotkey" style="hotkey" text="r "/>
+										<text id="move-target-searchLandmarks-4" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-5-hotkey" style="hotkey" text="t "/>
+										<text id="move-target-searchLandmarks-5" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-6-hotkey" style="hotkey" text="a "/>
+										<text id="move-target-searchLandmarks-6" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-7-hotkey" style="hotkey" text="s "/>
+										<text id="move-target-searchLandmarks-7" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-8-hotkey" style="hotkey" text="d "/>
+										<text id="move-target-searchLandmarks-8" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-9-hotkey" style="hotkey" text="f "/>
+										<text id="move-target-searchLandmarks-9" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-10-hotkey" style="hotkey" text="g "/>
+										<text id="move-target-searchLandmarks-10" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-11-hotkey" style="hotkey" text="z "/>
+										<text id="move-target-searchLandmarks-11" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-12-hotkey" style="hotkey" text="x "/>
+										<text id="move-target-searchLandmarks-12" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-13-hotkey" style="hotkey" text="c "/>
+										<text id="move-target-searchLandmarks-13" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-14-hotkey" style="hotkey" text="v "/>
+										<text id="move-target-searchLandmarks-14" style="subcommands-text" text="Some Target"/>
+									</panel>
+									<panel childLayout="horizontal">
+										<text id="move-target-searchLandmarks-15-hotkey" style="hotkey" text="b "/>
+										<text id="move-target-searchLandmarks-15" style="subcommands-text" text="Some Target"/>
+									</panel>									
+								</panel>
+								
+							</panel>
+						</panel>
+					</panel>
+				</panel>
+				
+				<panel width="100%" height="100%" id="move-faded" style="faded-dialog" childLayout="center">
+					<text style="faded-text" text="move"/>
+				</panel>                    
+
+			</panel>
+				
+			<!-- group-motion-formation -->
+			<panel id="gformation" focusable="true" controller="com.mentics.qd.ui.UIController_Config" inputMapping="com.mentics.qd.ui.UIMapping"
+				   childLayout="center" minW="300" maxW="900" minH="152" maxH="456">
+				   <interact onClick="clickPanel()" onClickMouseMove="movePanel()"/>
+				
+				<panel width="100%" height="100%" id="gformation-real" childLayout="horizontal" visible="false">
+					<panel id="gformation-type" width="50%" childLayout="vertical">
+					
+						<panel id="gformation-type-header" style="commands" height="20%" childLayout="horizontal">
+							<text id="gformation-type-htext" style="subcommands-text" text="Form Type: "/>
+						</panel>
+						
+						<panel id="gformation-type-title" style="commands" height="20%" childLayout="horizontal">
+							<text id="gformation-type-hvalue" style="subcommands-text" text="Type"/>
+						</panel>
+						
+						<panel id="gformation-type-select" height="60%" style="commands" childLayout="vertical">
+							<panel childLayout="horizontal">
+								<text id="gformation-type-select-1-hotkey" style="hotkey" text="q "/>
+								<text id="gformation-type-select-1" style="subcommands-text" text="Type1"/>
+							</panel>
+							<panel childLayout="horizontal">
+								<text id="gformation-type-select-2-hotkey" style="hotkey" text="w "/>
+								<text id="gformation-type-select-2" style="subcommands-text" text="Type2"/>
+							</panel>
+							<panel childLayout="horizontal">
+								<text id="gformation-type-select-3-hotkey" style="hotkey" text="e "/>
+								<text id="gformation-type-select-3" style="subcommands-text" text="Type3"/>
+							</panel>
+						</panel>
+						
+					</panel>
+				
+					<panel id="gformation-params" width="50%" childLayout="vertical">
+					
+						<panel id="gformation-params-header" height="20%" style="commands" childLayout="horizontal">
+							<text id="gformation-params-htext" style="subcommands-text" text="Parameters: "/>
+						</panel>
+						
+						<panel id="gformation-params-title" height="20%" style="commands" childLayout="horizontal">
+							<text id="gformation-params-hvalue" style="subcommands-text" text="Param:000"/>
+						</panel>
+						
+						<panel id="gformation-params-select" height="60%" style="commands" childLayout="center">
+						
+							<panel id="gformation-params-select-1" childLayout="vertical" padding="10%,0%,0%,0%">
+								<text id="params-1-radius-text" height="20%" style="subcommands-text" text="Param"/>
+								<control id="params-1-radius" height="20%" name="QNtextfield" text="000"/>
+							</panel>		
+							
+						</panel>	
+						
+					</panel>
+				</panel>
+				
+				<panel width="100%" height="100%" id="gformation-faded" style="faded-dialog" childLayout="center">
+					<text style="faded-text" text="gformation"/>
+				</panel>  
+					
+			</panel>
+        
+        </panel>
+		
+		</layer>
+        
+        <layer id="outer_layer" childLayout="center">
+               
+            <panel id="config_tools" style="outer-menu" controller="com.mentics.qd.ui.controls_outer.ToolsController" inputMapping="com.mentics.qd.ui.UIMapping"            
+                width="400px" height="30px"  
+                valign="top" childLayout="horizontal">
+                
+                <text id="tools_top" style="outer-menu-text" text="Top" visibleToMouse="true">
+                    <interact onClick="top()"/>
+                </text>
+                <text id="tools_sub" style="outer-menu-text" text="Sub" visibleToMouse="true">
+                    <interact onClick="sub()"/>
+                </text>
+                <text id="tools_dialog" style="outer-menu-text" text="Dialog" visibleToMouse="true">
+                    <interact onClick="dialog()"/>
+                </text>
+                
+            </panel>
+                
+            <panel id="config_menu" style="outer-menu" controller="com.mentics.qd.ui.controls_outer.ConfigMenuController" inputMapping="com.mentics.qd.ui.UIMapping"
+                width="30%" height="50%" visible="false">
+                
+                <text id="Paused" style="outer-menu-text" text="[[CONFIG MENU]]"/>
+                <text id="Resume" style="outer-menu-text" text="Resume" visibleToMouse="true">
+                	<interact onClick="resume()"/>
+                </text>
+				<text id="Default" style="outer-menu-text" text="Reset Defaults" visibleToMouse="true">
+                	<interact onClick="defaults()"/>
+                </text>	                
+                <text id="Save" style="outer-menu-text" text="Save and Quit" visibleToMouse="true">
+                	<interact onClick="save()"/>
+                </text>					
+				<text id="Cancel" style="outer-menu-text" text="Cancel and Quit" visibleToMouse="true">
+                	<interact onClick="cancel()"/>
+                </text>	
+                
+            </panel>                
+               
+        </layer>
+		
+    </screen>
+</nifty>

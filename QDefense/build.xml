@@ -1,0 +1,127 @@
+<project name="QNebula" basedir="." default="package">
+
+
+    <property file="build.properties"/>
+
+    <!-- Deletes the directory structure -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${jar.dir}"/>
+        <delete dir="${main.dir}"/>
+        <delete file="${build.dir}\${ant.project.name}.jar"/>
+    </target>
+
+
+    <!-- Creates the  required directory structure -->
+    <target name="makedir">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${jar.dir}"/>
+        <mkdir dir="${main.dir}"/>
+    </target>
+
+    <!-- Copy resources to directory -->
+    <target name="copyResources">
+        <copy todir="${build.dir}">
+            <fileset dir="${src.resources.dir}">
+                <exclude name="run.bat"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}" flatten="true">
+            <fileset dir="${src.resources.dir}">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- Copy libs to directory -->
+    <target name="copyLibs">
+        <copy todir="${jar.dir}\${lib.dir}">
+            <fileset dir="${lib.dir}"/>
+        </copy>
+    </target>
+
+    <!-- Compiles all the source/resources files -->
+    <target name="compile" depends="clean,makedir,copyResources,check-architecture">
+        <javac destdir="${build.dir}" debug="on" includeantruntime="false" executable="${javac1.8}" target="1.8"
+               fork="yes">
+            <src path="${src.dir}"/>
+            <classpath id="classpath" description="Include all libs from classpath">
+                <pathelement path="${classpath}"/>
+                <fileset dir="${lib.dir}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Creates a jar file -->
+    <target name="jar" depends="compile,copyLibs">
+        <jar destfile="${jar.dir}\${ant.project.name}.jar" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="com.mentics.qd.QuipNebula"/>
+                <attribute name="Class-Path"
+                           value="lib/snakeyaml-1.13.jar lib/eventbus-1.4-javadoc.jar lib/eventbus-1.4.jar lib/nifty-1.3.3-javadoc.jar lib/nifty-1.4.0.jar lib/nifty-default-controls-1.4.0-javadoc.jar lib/nifty-default-controls-1.4.0.jar lib/nifty-html-1.4.0-javadoc.jar lib/nifty-html-1.4.0.jar lib/nifty-jogl-renderer-1.4.0-javadoc.jar lib/nifty-jogl-renderer-1.4.0.jar lib/nifty-openal-soundsystem-1.4.0-javadoc.jar lib/nifty-openal-soundsystem-1.4.0.jar lib/nifty-style-black-1.3.3-javadoc.jar lib/nifty-style-black-1.4.0.jar lib/xpp3-1.1.4c.jar lib/gluegen-2.1.5.jar lib/gluegen-rt-2.1.5.jar lib/joal-2.1.5.jar lib/jogl-all-2.1.5.jar lib/gluegen-2.1.5-natives-windows-i586.jar lib/jogl-all-2.1.5-natives-windows-i586.jar"/>
+            </manifest>
+        </jar>
+        <copy file="${src.resources.dir}\run.bat" todir="${jar.dir}"/>
+    </target>
+
+    <target name="package" depends="jar">
+        <zip destfile="${main.dir}/${ant.project.name}.zip"
+             basedir="${jar.dir}"/>
+        <delete dir="${build.dir}"/>
+        <delete dir="${jar.dir}"/>
+    </target>
+
+    <target name="check-architecture" depends="check-family,check-register">
+        <echo>Register size: ${register-size}</echo>
+        <echo>OS Family: ${os-family}</echo>
+    </target>
+
+    <target name="check-family">
+        <condition property="os-family" value="unix" else="windows">
+            <os family="unix"/>
+        </condition>
+
+        <condition property="unix">
+            <os family="unix"/>
+        </condition>
+    </target>
+
+    <target name="check-register" depends="reg-unix,reg-windows">
+    </target>
+
+    <!-- Test under GNU/Linux -->
+    <target name="reg-unix" if="unix">
+        <exec dir="." executable="uname" outputproperty="result">
+            <arg line="-m"/>
+        </exec>
+
+        <!-- String ends in 64 -->
+        <condition property="x64">
+            <matches string="${result}" pattern="^.*64$"/>
+        </condition>
+
+        <condition property="register-size" value="64" else="32">
+            <isset property="x64"/>
+        </condition>
+    </target>
+
+    <target name="reg-windows" unless="unix">
+        <!-- 64 bit Windows versions have the variable "ProgramFiles(x86)" -->
+        <exec dir="." executable="cmd" outputproperty="result">
+            <arg line="/c SET ProgramFiles(x86)"/>
+        </exec>
+
+        <!-- String ends in "Program Files (x86)" -->
+        <condition property="x64">
+            <matches string="${result}" pattern="^.*=.*Program Files \(x86\)"/>
+        </condition>
+
+        <condition property="register-size" value="64" else="32">
+            <isset property="x64"/>
+        </condition>
+    </target>
+
+
+</project>
